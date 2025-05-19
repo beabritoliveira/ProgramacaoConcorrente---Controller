@@ -1,0 +1,6 @@
+@CriptoMoed_HostAddress = http://localhost:5202
+
+GET {{CriptoMoed_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
