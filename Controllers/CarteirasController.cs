@@ -23,13 +23,12 @@ namespace CriptoMoed.Controllers
             _contextMoeda = contexto;
         }
 
-       /* // GET: api/Carteiras => PEGA TODAS AS CARTEIRAS
+        // GET: api/Carteiras => PEGA TODAS AS CARTEIRAS
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Carteira>>> GetCarteiraItens()
         {
             return await _context.CarteiraItens.ToListAsync();
         }
-       */
         
         // GET: api/Carteiras/1 => CONSULTA DE SALDO POR CONTA (EM REAL E NA MOEDA)
         [HttpGet("{id}")]
@@ -47,7 +46,7 @@ namespace CriptoMoed.Controllers
                 return NotFound();
             }
 
-            return "Saldo carteira "+ id + " - " + (carteira.qtdMoedas * moeda.Valor) + " Reais \n" + carteira.qtdMoedas + " " + moeda.Nome;
+            return ("Saldo carteira " + id + " - " + (carteira.qtdMoedas * moeda.Valor) + " Reais \n" + carteira.qtdMoedas + " " + moeda.Nome);
         }
 
         // PUT: api/Carteiras/1
@@ -55,17 +54,19 @@ namespace CriptoMoed.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<String>> ComprarMoedas(string id, decimal valor)
         {
+            Console.WriteLine("ID: " + id + " - Valor: " + valor);
             if (!CarteiraExists(id) || valor <= 0) // checa se o id passado tem uma carteira correspondente
             {
+                Console.WriteLine("ENTROU NO BAD REQUEST");
                 return BadRequest();
             }
             var carteira = await _context.CarteiraItens.FindAsync(id);
             var moeda = await _contextMoeda.MoedasItens.FindAsync(carteira.idMoeda);
 
             var qtd_m = moeda.Valor;
-            qtd_m = valor/qtd_m; // para descobrir a nova quantidade que vai ter na conta
+            var qtd_new = valor/qtd_m; // para descobrir a nova quantidade que vai ter na conta
 
-            carteira.qtdMoedas = carteira.qtdMoedas + qtd_m;
+            carteira.qtdMoedas = carteira.qtdMoedas + qtd_new;
             if (carteira.qtdMoedas > 0)
             {
                 carteira.statusConta = "Positivo";
@@ -78,24 +79,10 @@ namespace CriptoMoed.Controllers
 
 
             _context.Entry(carteira).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarteiraExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return "Novo Saldo da cateira " + id + " - " + carteira.qtdMoedas + " " + moeda.Nome;
+            return "Novo Saldo da carteira " + id + " - " + carteira.qtdMoedas + " " + moeda.Nome;
         }
 
         // POST: api/Carteiras
@@ -104,21 +91,7 @@ namespace CriptoMoed.Controllers
         public async Task<ActionResult<Carteira>> PostCarteira(Carteira carteira)
         {
             _context.CarteiraItens.Add(carteira);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CarteiraExists(carteira.numeroConta))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCarteira", new { id = carteira.numeroConta }, carteira);
         }
@@ -128,8 +101,10 @@ namespace CriptoMoed.Controllers
         [HttpPut("transferencia")]
         public async Task<ActionResult<String>> TransferenciaMoedas(string id_origem, string id_destino, decimal valor)
         {
+            Console.WriteLine("ID OG: " + id_origem + " - ID dest " + id_destino + " - Valor " + valor);
             if (!CarteiraExists(id_origem) || !CarteiraExists(id_destino) || valor <= 0) // checa se o id passado tem uma carteira correspondente
             {
+                Console.WriteLine("ESTROU NA BAD REQUEST");
                 return BadRequest();
             }
             var carteira_origem = await _context.CarteiraItens.FindAsync(id_origem);
@@ -226,15 +201,19 @@ namespace CriptoMoed.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCarteira(string id)
         {
+            Console.WriteLine("ID de DELETAR " + id);
             var carteira = await _context.CarteiraItens.FindAsync(id);
             if (carteira == null)
             {
+                Console.WriteLine("Entrou no null");
                 return NotFound();
             }
-            if(carteira.qtdMoedas != null || carteira.qtdMoedas != 0)
+            if(carteira.qtdMoedas != null && carteira.qtdMoedas != 0)
             {
-                return BadRequest(); ;
+                Console.WriteLine("ENTROU NO OUTRO");
+                return BadRequest();
             }
+            Console.WriteLine(carteira);
             _context.CarteiraItens.Remove(carteira);
             await _context.SaveChangesAsync();
 

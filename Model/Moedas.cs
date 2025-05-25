@@ -9,12 +9,13 @@ namespace CriptoMoed.Model
         public string Nome { get; set; }
         public decimal Valor { get; set; }
 
-        public Moedas(int id, string nome, decimal valor)
+        public Moedas(int Id, string Nome, decimal Valor)
         {
-            Id = id;
-            Nome = nome;
-            Valor = valor;
+            Id = Id;
+            Nome = Nome;
+            Valor = Valor;
         }
+
 
         public Moedas()
         {

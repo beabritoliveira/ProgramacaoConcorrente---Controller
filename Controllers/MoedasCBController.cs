@@ -46,8 +46,10 @@ namespace CriptoMoed.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMoedas(int id, decimal valor)
         {
+            Console.WriteLine("ID " + id + " - Valor: "+ valor);
             if (!MoedasExists(id) || valor <= 0)
             {
+                Console.WriteLine("ENTROU NO BAD REQUEST");
                 return BadRequest();
             }
             var moedas = await _context.MoedasItens.FindAsync(id);
