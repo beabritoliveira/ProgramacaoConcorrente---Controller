@@ -10,16 +10,14 @@ As criptomoedas, como **Bitcoin** e **Ethereum**, já ganharam popularidade e va
 - Transferências
 - Consultas de saldo
 
-### Objetivo
+Objetivo
 O objetivo desta atividade é desenvolver um **sistema de gerenciamento de carteiras de criptomoedas**, implementando:
 
 1. **Operações básicas de CRUD (Create, Read, Update e Delete)**
 2. **Integração com serviço consumido via chamada remota de procedimento (RPC)**
 3. **Proposição de novas funcionalidades para agregar valor ao sistema**
 
----
-
-## Implementação do Web Services
+Implementação do Web Services
 As operações básicas do sistema devem ser implementadas utilizando **HTTP** e **JSON** para troca de dados. As operações incluem:
 
 - **Criação** de uma nova carteira de criptomoedas
@@ -28,10 +26,10 @@ As operações básicas do sistema devem ser implementadas utilizando **HTTP** e
 - **Transferência** de criptomoedas entre carteiras
 - **Exclusão** de uma carteira
 
-### Disponibilização de serviço via Chamada Remota de Procedimento
+Disponibilização de serviço via Chamada Remota de Procedimento
 Deve-se implementar serviços que serão **consumidos internamente** para atender às funcionalidades do usuário. Esses serviços não estarão expostos diretamente.
 
-### Proposta de novas funcionalidades
+Proposta de novas funcionalidades
 Algumas sugestões de funcionalidades adicionais incluem:
 
 - **Histórico de transações:** permitir que usuários consultem todas as transações realizadas, incluindo datas e valores.
@@ -48,11 +46,11 @@ A arquitetura do sistema é dividida em **3 partes**:
 
 ### Controllers
 
-#### 📌 CarteirasController
+#### CarteirasController
 
 Este código em C# define uma **API REST** usando **ASP.NET Core** para gerenciamento de carteiras de criptomoedas. As principais operações incluem:
 
-### 🌐 Endpoints e Funcionalidades
+### Funcionalidades
 
 | Método HTTP | Endpoint | Descrição |
 |------------|---------|-----------|
@@ -69,11 +67,11 @@ A API interage com dois bancos de dados:
 
 ---
 
-### MoedasController
+#### MoedasController
 
 Este código gerencia os **dados das moedas** disponíveis no sistema.
 
-### 🌐 Endpoints e Funcionalidades
+### Funcionalidades
 
 | Método HTTP | Endpoint | Descrição |
 |------------|---------|-----------|
@@ -84,7 +82,3 @@ Este código gerencia os **dados das moedas** disponíveis no sistema.
 | `DELETE` | `/api/MoedasCB/{id}` | Exclusão de uma moeda |
 
 A classe **MoedasCBController** interage com o banco de dados por meio do contexto **MoedasContext**, gerenciando as operações de consulta, inserção, atualização e exclusão.
-
----
-
-Isso deve facilitar a leitura e estruturação do documento. Se precisar de mais ajustes, só me avisar! 😃
