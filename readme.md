@@ -44,6 +44,10 @@ A arquitetura do sistema é dividida em **3 partes**:
 2. **Client** - Interface para o usuário final
 3. **GrpcService** - Serviço de comunicação remota
 
+![{E39E3767-DBCF-487E-A175-7749C9CCC6DA}](https://github.com/user-attachments/assets/dfbf2212-4787-4980-8f78-efad201e0b9a)
+
+
+
 ### Controllers
 
 #### CarteirasController
