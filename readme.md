@@ -50,7 +50,7 @@ A arquitetura do sistema é dividida em **3 partes**:
 
 Este código em C# define uma **API REST** usando **ASP.NET Core** para gerenciamento de carteiras de criptomoedas. As principais operações incluem:
 
-### Funcionalidades
+#### Funcionalidades
 
 | Método HTTP | Endpoint | Descrição |
 |------------|---------|-----------|
@@ -71,7 +71,7 @@ A API interage com dois bancos de dados:
 
 Este código gerencia os **dados das moedas** disponíveis no sistema.
 
-### Funcionalidades
+#### Funcionalidades
 
 | Método HTTP | Endpoint | Descrição |
 |------------|---------|-----------|
